@@ -12,7 +12,29 @@ const RestaurantSignup = () => {
   const [address, setAddress] = useState("");
   const [contact, setContact] = useState("");
   const router = useRouter();
+  const [error, setError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const handleSignUp = async () => {
+    if (password !== c_password) {
+      setPasswordError(true);
+      return false;
+    } else {
+      setPasswordError(false);
+    }
+    if (
+      !email ||
+      !password ||
+      !c_password ||
+      !name ||
+      !city ||
+      !address ||
+      !contact
+    ) {
+      setError(true);
+      return false;
+    } else {
+      setError(false);
+    }
     let response = await fetch("http://localhost:3000/api/restaurant", {
       method: "POST",
       body: JSON.stringify({
@@ -28,7 +50,7 @@ const RestaurantSignup = () => {
     response = await response.json();
 
     if (response.success) {
-      const {result}=response;
+      const { result } = response;
       console.log("response", result);
       delete response.password;
       localStorage.setItem("restaurantUser", JSON.stringify(result));
@@ -49,6 +71,11 @@ const RestaurantSignup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {error && !email && (
+            <span className="input-error">
+              Please provide correct data
+            </span>
+          )}
         </div>
         <div className="input-wrapper">
           <input
@@ -58,7 +85,19 @@ const RestaurantSignup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {passwordError && (
+            <span className="input-error">
+              Password and confirm password don not match
+            </span>
+          )}
+          {error && !password && (
+            <span className="input-error">
+              Please provide correct data
+            </span>
+          )}
+          
         </div>
+
         <div className="input-wrapper">
           <input
             type="password"
@@ -67,6 +106,16 @@ const RestaurantSignup = () => {
             value={c_password}
             onChange={(e) => setc_password(e.target.value)}
           />
+          {passwordError && (
+            <span className="input-error">
+              Password and confirm password don not match
+            </span>
+          )}
+          {error && !c_password && (
+            <span className="input-error">
+              Please provide correct data
+            </span>
+          )}
         </div>
         <div className="input-wrapper">
           <input
@@ -76,6 +125,11 @@ const RestaurantSignup = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          {error && !name && (
+            <span className="input-error">
+              Password and confirm password don not match
+            </span>
+          )}
         </div>
         <div className="input-wrapper">
           <input
@@ -85,6 +139,11 @@ const RestaurantSignup = () => {
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
+          {error && !city && (
+            <span className="input-error">
+              Please provide correct data
+            </span>
+          )}
         </div>
         <div className="input-wrapper">
           <input
@@ -94,6 +153,11 @@ const RestaurantSignup = () => {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
+          {error && !address && (
+            <span className="input-error">
+              Please provide correct data
+            </span>
+          )}
         </div>
 
         <div className="input-wrapper">
@@ -104,6 +168,11 @@ const RestaurantSignup = () => {
             value={contact}
             onChange={(e) => setContact(e.target.value)}
           />
+          {error && !contact && (
+            <span className="input-error">
+              Please provide correct data
+            </span>
+          )}
         </div>
 
         <div className="input-wrapper">
