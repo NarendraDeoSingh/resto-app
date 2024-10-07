@@ -1,25 +1,34 @@
+
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const RestaurantLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const router=useRouter()
 
-  const handleLogin = async() => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setError(true);
       return false;
     } else {
       setError(false);
-      console.log(email,password)
+      console.log(email, password);
     }
-    let response=await fetch("http://localhost:3000/api/restaurant",{
-      method:'POST',
-      body:JSON.stringify({email,password,login:true})
-    })
-    response=await response.json();
-    if(response.success){
-      alert("Login Successful")
+    let response = await fetch("http://localhost:3000/api/restaurant", {
+      method: "POST",
+      body: JSON.stringify({ email, password, login: true }),
+    });
+    response = await response.json();
+    if (response.success) {
+      const result = response;
+      delete response.password;
+      localStorage.setItem("restaurantUser", JSON.stringify(result));
+      router.push("/restaurant/dashboard")
+      alert("Login Successful");
+    } else {
+      alert("Login Failed");
     }
   };
   return (
@@ -33,7 +42,9 @@ const RestaurantLogin = () => {
             className="input-field"
             onChange={(e) => setEmail(e.target.value)}
           />
-          {error && !email && <span className="input-error">Please enter correct data</span>}
+          {error && !email && (
+            <span className="input-error">Please enter correct data</span>
+          )}
         </div>
         <div className="input-wrapper">
           <input
@@ -42,7 +53,9 @@ const RestaurantLogin = () => {
             className="input-field"
             onChange={(e) => setPassword(e.target.value)}
           />
-          {error && !password && <span className="input-error">Please enter correct data</span>}
+          {error && !password && (
+            <span className="input-error">Please enter correct data</span>
+          )}
         </div>
 
         <div className="input-wrapper">
