@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
 import React, { useEffect, useState } from "react";
+
 export default function RestaurantHeader() {
-  const [details, setDetails] = useState();
+  const [details, setDetails] = useState('');
   const router = useRouter();
   let pathName = usePathname();
 
@@ -17,7 +17,7 @@ export default function RestaurantHeader() {
     if (data && pathName == "/restaurant") {
       router.push("/restaurant/dashboard");
     } else {
-      setDetails(JSON.parse(data));
+      // setDetails(JSON.parse(data));
     }
   });
 
