@@ -51,7 +51,6 @@ const RestaurantSignup = () => {
 
     if (response.success) {
       const { result } = response;
-      console.log("response", result);
       delete response.password;
       localStorage.setItem("restaurantUser", JSON.stringify(result));
       router.push("/restaurant/dashboard");

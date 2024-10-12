@@ -4,6 +4,7 @@ import RestaurantHeader from "@/app/_components/RestaurantHeader";
 import "../../restaurant/style.css";
 import { RestaurantFooter } from "@/app/_components/RestaurantFooter";
 import AddFoodItems from "@/app/_components/AddFoodItem";
+import FoodItemList from "@/app/_components/FoodItemList";
 const Dashboard = () => {
   const [addItem, setAddItem] = useState(false);
   return (
@@ -11,7 +12,7 @@ const Dashboard = () => {
       <RestaurantHeader />
       <button onClick={()=>setAddItem(true)}>Add Food</button>
       <button onClick={()=>setAddItem(false)}>Dashboard</button>
-      {addItem ? <AddFoodItems /> : <h1>Restaurant Dashboard</h1>}
+      {addItem ? <AddFoodItems setAddItem={setAddItem} /> : <FoodItemList />}
 
       <RestaurantFooter />
     </div>

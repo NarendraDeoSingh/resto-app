@@ -1,15 +1,19 @@
 import { useState } from "react";
-const AddFoodItems = () => {
+const AddFoodItems = (props) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [path, setPath] = useState("");
   const [description, setDescription] = useState("");
+  const [error, setError] = useState(false);
 
-  const handleAddFoodItem = async () => {
-    console.log(name, price, path, description);
+  const handleAddFoodItem = async (props) => {
+    if (!name || !price || !path || !description) {
+      setError(true);
+      return false;
+    }
     let restro_id;
     const restaurantData = JSON.parse(localStorage.getItem("restaurantUser"));
-    
+
     if (restaurantData) {
       restro_id = restaurantData.result._id;
     }
@@ -25,7 +29,9 @@ const AddFoodItems = () => {
     });
     response = await response.json();
     if (response.success) {
+     
       alert("Food item added");
+      props.setAddItem(false)
     }
   };
   return (
@@ -39,6 +45,11 @@ const AddFoodItems = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        {error && !name ? (
+          <span className="input-error">Please enterr valid name</span>
+        ) : (
+          ""
+        )}
       </div>
       <div className="input-wrapper">
         <input
@@ -48,6 +59,11 @@ const AddFoodItems = () => {
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
+        {error && !price ? (
+          <span className="input-error">Please enterr valid price</span>
+        ) : (
+          ""
+        )}
       </div>
       <div className="input-wrapper">
         <input
@@ -57,6 +73,11 @@ const AddFoodItems = () => {
           value={path}
           onChange={(e) => setPath(e.target.value)}
         />
+        {error && !path ? (
+          <span className="input-error">Please enterr valid path</span>
+        ) : (
+          ""
+        )}
       </div>
       <div className="input-wrapper">
         <input
@@ -66,9 +87,14 @@ const AddFoodItems = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        {error && !description ? (
+          <span className="input-error">Please enterr valid description</span>
+        ) : (
+          ""
+        )}
       </div>
       <div className="input-wrapper">
-        <button className="button" onClick={handleAddFoodItem}>
+        <button className="button" onClick={()=>handleAddFoodItem(props)}>
           Add Food Item
         </button>
       </div>

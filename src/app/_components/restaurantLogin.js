@@ -14,7 +14,6 @@ const RestaurantLogin = () => {
       return false;
     } else {
       setError(false);
-      console.log(email, password);
     }
     let response = await fetch("http://localhost:3000/api/restaurant", {
       method: "POST",

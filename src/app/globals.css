@@ -23,3 +23,27 @@
   color: skyblue;
   margin: 20px;
 }
+.input-error {
+  position: absolute;
+  padding: 8px;
+  color: red;
+  font-size: 13px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #000;
+  border-collapse: collapse;
+  padding: 10px;
+}
+
+table,
+th,
+button {
+  margin: 5px;
+}
+
+table img{
+  width: 80px;
+}
