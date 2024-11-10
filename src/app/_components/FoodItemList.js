@@ -2,13 +2,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 const FoodItemList = () => {
   const [foodItems, setFoodItems] = useState([]);
-  const router=useRouter()
+  const router = useRouter();
   useEffect(() => {
     loadFoodItems();
   }, []);
   const loadFoodItems = async () => {
     const restaurantData = JSON.parse(localStorage.getItem("restaurantUser"));
-    const restro_id = restaurantData.result._id;
+    console.log("restaurantDat", restaurantData);
+    const restro_id = restaurantData._id;
     let response = await fetch(
       "http://localhost:3000/api/restaurant/foods/" + restro_id
     );
@@ -64,7 +65,9 @@ const FoodItemList = () => {
                   <button onClick={() => deleteFoodItems(item._id)}>
                     Delete
                   </button>
-                  <button onClick={()=>router.push('dashboard/'+item._id)}>Edit</button>
+                  <button onClick={() => router.push("dashboard/" + item._id)}>
+                    Edit
+                  </button>
                 </td>
               </tr>
             );

@@ -15,7 +15,7 @@ const AddFoodItems = (props) => {
     const restaurantData = JSON.parse(localStorage.getItem("restaurantUser"));
 
     if (restaurantData) {
-      restro_id = restaurantData.result._id;
+      restro_id = restaurantData._id;
     }
     let response = await fetch("http://localhost:3000/api/restaurant/foods", {
       method: "POST",
