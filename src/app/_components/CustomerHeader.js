@@ -54,11 +54,25 @@ const CustomerHeader = (props) => {
 
   useEffect(() => {
     if (props.removeCartData) {
-      setCartItem([]);
-      setCartNumber(0);
-      localStorage.removeItem("cart");
+      let localCartItem = cartItem.filter((item) => {
+        return item._id != props.removeCartData;
+      });
+      setCartItem(localCartItem);
+      setCartNumber(cartNumber - 1);
+      localStorage.setItem("cart", JSON.stringify(localCartItem));
+      if (localCartItem.length == 0) {
+        localStorage.removeItem("cart");
+      }
     }
   }, [props.removeCartData]);
+
+  // useEffect(() => {
+  //   if (props.removeCartData) {
+  //     setCartItem([]);
+  //     setCartNumber(0);
+  //     localStorage.removeItem("cart");
+  //   }
+  // }, [props.removeCartData]);
 
   const logout = () => {
     localStorage.removeItem("user");

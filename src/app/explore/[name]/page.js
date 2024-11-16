@@ -5,9 +5,22 @@ import { useEffect, useState } from "react";
 
 const Page = (props) => {
   const name = props.params.name;
-  const [restaurantDetails, setRestaurantDetails] = useState('');
-  const [foodItems, setFoodItems] = useState('');
-  const [cartData, setCartData] = useState('');
+  const [restaurantDetails, setRestaurantDetails] = useState("");
+  const [foodItems, setFoodItems] = useState("");
+  const [cartData, setCartData] = useState("");
+  const [cartStorage, setCartStorage] = useState(
+    JSON.parse(localStorage.getItem("cart"))
+  );
+  const [cardIds, setCartIds] = useState(
+    cartStorage
+      ? () =>
+          cartStorage?.map((item) => {
+            return item._id;
+          })
+      : []
+  );
+
+  const [removeCartData, setRemoveCartData] = useState();
   useEffect(() => {
     loadRestaurantDetails();
   }, []);
@@ -27,11 +40,23 @@ const Page = (props) => {
   };
 
   const addToCart = (item) => {
+    let localCartIds = cardIds;
+    localCartIds.push(item._id);
+    setCartIds(localCartIds);
     setCartData(item);
+    setRemoveCartData();
+  };
+
+  const removeFromCart = (id) => {
+    setRemoveCartData(id);
+    var localCartIds = cardIds.filter((item) => item != id);
+    console.log(localCartIds);
+    setCartData()
+    setCartIds(localCartIds);
   };
   return (
     <div>
-      <CustomerHeader cartData={cartData} />
+      <CustomerHeader cartData={cartData}  removeCartData={removeCartData} />
       <div className="restaurant-page-banner">
         <h1>{decodeURI(name)}</h1>
       </div>
@@ -44,16 +69,23 @@ const Page = (props) => {
 
       <div className="food-item-wrapper">
         {foodItems?.length > 0 ? (
-          foodItems?.map((item,index) => (
+          foodItems?.map((item, index) => (
             <div className="list-item" key={index}>
               <div>
                 <img src={item.img_path} width={75} height={75} />
               </div>
               <div>
-                <div >{item.name}</div>
+                <div>{item.name}</div>
                 <div>{item.price}</div>
                 <div>{item.description}</div>
-                <button onClick={()=>addToCart(item)}>Add to cart</button>
+
+                {cardIds?.includes(item._id) ? (
+                  <button onClick={() => removeFromCart(item._id)}>
+                    Remove from cart
+                  </button>
+                ) : (
+                  <button onClick={() => addToCart(item)}>Add to cart</button>
+                )}
               </div>
             </div>
           ))
