@@ -9,7 +9,7 @@ import { RestaurantFooter } from "./_components/RestaurantFooter";
 export default function Home() {
   const [locations, setLocations] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState();
   const [showLocation, setShowLocation] = useState(false);
   const router = useRouter();
 
@@ -76,8 +76,9 @@ export default function Home() {
         </div>
       </div>
       <div className="restaurant-list-container">
-        {restaurants.map((item) => (
+        {restaurants.map((item,index) => (
           <div
+          key={index}
             onClick={() =>
               router.push("explore/" + item.name + "?id=" + item._id)
             }

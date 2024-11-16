@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 
 const Page = (props) => {
   const name = props.params.name;
-  const [restaurantDetails, setRestaurantDetails] = useState();
-  const [foodItems, setFoodItems] = useState();
+  const [restaurantDetails, setRestaurantDetails] = useState('');
+  const [foodItems, setFoodItems] = useState('');
+  const [cartData, setCartData] = useState('');
   useEffect(() => {
     loadRestaurantDetails();
   }, []);
@@ -25,9 +26,12 @@ const Page = (props) => {
     }
   };
 
+  const addToCart = (item) => {
+    setCartData(item);
+  };
   return (
     <div>
-      <CustomerHeader />
+      <CustomerHeader cartData={cartData} />
       <div className="restaurant-page-banner">
         <h1>{decodeURI(name)}</h1>
       </div>
@@ -39,19 +43,23 @@ const Page = (props) => {
       </div>
 
       <div className="food-item-wrapper">
-        {foodItems?.length>0? foodItems?.map((item) => (
-          <div className="list-item">
-            <div>
-              <img src={item.img_path} width={75} height={75} />
+        {foodItems?.length > 0 ? (
+          foodItems?.map((item,index) => (
+            <div className="list-item" key={index}>
+              <div>
+                <img src={item.img_path} width={75} height={75} />
+              </div>
+              <div>
+                <div >{item.name}</div>
+                <div>{item.price}</div>
+                <div>{item.description}</div>
+                <button onClick={()=>addToCart(item)}>Add to cart</button>
+              </div>
             </div>
-            <div>
-              <div>{item.name}</div>
-              <div>{item.price}</div>
-              <div>{item.description}</div>
-              <button>Add to cart</button>
-            </div>
-          </div>
-        )):<h1>No food item added for now</h1>}
+          ))
+        ) : (
+          <h1>No food item added for now</h1>
+        )}
       </div>
       <RestaurantFooter />
     </div>
