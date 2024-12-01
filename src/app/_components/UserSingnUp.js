@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const UserSignUp = () => {
+const UserSignUp = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,7 +10,8 @@ const UserSignUp = () => {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [mobile, setMobile] = useState("");
-  const route=useRouter();
+  const route = useRouter();
+  const router = useRouter();
   const handleSignUp = async () => {
     console.log(name, email, password, confpassword, city, address, mobile);
     let response = await fetch("http://localhost:3000/api/user", {
@@ -19,10 +20,14 @@ const UserSignUp = () => {
     });
     response = await response.json();
     if (response.success) {
-      const {result}=response;
+      const { result } = response;
       delete result.password;
-      localStorage.setItem('user',JSON.stringify(result))
-      route.push('/')
+      localStorage.setItem("user", JSON.stringify(result));
+      if (props?.redirect?.order) {
+        router.push("/order");
+      } else {
+        route.push("/");
+      }
     } else {
       alert("failed");
     }
