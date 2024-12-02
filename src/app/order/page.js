@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomerHeader from "../_components/CustomerHeader";
 import { DELIVERY_CHARGES, TAX } from "../lib/constant";
 import { useRouter } from "next/navigation";
@@ -22,6 +22,13 @@ const Page = () => {
   const router = useRouter();
   console.log(total);
 
+  useEffect(() => {
+    if (!total) {
+      router.push("/");
+    }
+  },[total]);
+
+  const [removeCartData, setRemoveCartData] = useState(false);
   const orderNow = async () => {
     let user_id = JSON.parse(localStorage.getItem("user"))._id;
     let cart = JSON.parse(localStorage.getItem("cart"));
@@ -40,9 +47,11 @@ const Page = () => {
       method: "POST",
       body: JSON.stringify(collection),
     });
-    console.log('response',response)
+    console.log("response", response);
     if (response.status) {
       alert("order placed");
+      setRemoveCartData(true);
+      router.push("myprofile");
     } else {
       alert("order failed");
     }
@@ -50,7 +59,7 @@ const Page = () => {
   };
   return (
     <div>
-      <CustomerHeader />
+      <CustomerHeader removeCartData={removeCartData} />
       <div className="total-wrapper">
         <div className="block-1">
           <h2>User Details</h2>
