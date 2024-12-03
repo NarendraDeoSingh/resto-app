@@ -17,7 +17,6 @@ const Page = () => {
         })
   );
   const router = useRouter();
-  console.log(total);
 
   const orderNow = () => {
     if (JSON.parse(localStorage.getItem("user"))) {

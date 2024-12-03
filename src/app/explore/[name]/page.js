@@ -27,11 +27,9 @@ const Page = (props) => {
 
   const loadRestaurantDetails = async () => {
     const id = props.searchParams.id;
-    // console.log(id);
 
     let response = await fetch("http://localhost:3000/api/customer/" + id);
     response = await response.json();
-    // console.log("foodItems", response);
 
     if (response.success) {
       setRestaurantDetails(response.details);
@@ -50,7 +48,6 @@ const Page = (props) => {
   const removeFromCart = (id) => {
     setRemoveCartData(id);
     var localCartIds = cardIds.filter((item) => item != id);
-    console.log(localCartIds);
     setCartData()
     setCartIds(localCartIds);
   };

@@ -7,10 +7,10 @@ import { RestaurantFooter } from "../_components/RestaurantFooter";
 
 const Page = () => {
   const [userStorage, setUserStorage] = useState(
-    JSON.parse(localStorage.getItem("user"))
+    JSON.parse(localStorage?.getItem("user"))
   );
   const [cartStorage, setCartStorage] = useState(
-    JSON.parse(localStorage.getItem("cart"))
+    JSON.parse(localStorage?.getItem("cart"))
   );
   const [total] = useState(() =>
     cartStorage?.length == 1
@@ -20,17 +20,17 @@ const Page = () => {
         })
   );
   const router = useRouter();
-  console.log(total);
 
   useEffect(() => {
     if (!total) {
       router.push("/");
     }
-  },[total]);
+  }, [total]);
 
   const [removeCartData, setRemoveCartData] = useState(false);
   const orderNow = async () => {
     let user_id = JSON.parse(localStorage.getItem("user"))._id;
+    console.log("user_id ", user_id);
     let cart = JSON.parse(localStorage.getItem("cart"));
     let resto_id = cart[0].restro_id;
     let foodItemIds = cart.map((item) => item._id).toString();
@@ -47,15 +47,14 @@ const Page = () => {
       method: "POST",
       body: JSON.stringify(collection),
     });
-    console.log("response", response);
-    if (response.status) {
+    response = await response.json();
+    if (response.success) {
       alert("order placed");
       setRemoveCartData(true);
       router.push("myprofile");
     } else {
       alert("order failed");
     }
-    console.log(collection);
   };
   return (
     <div>

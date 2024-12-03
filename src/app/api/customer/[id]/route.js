@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET(request, content) {
-  console.log(content.params.id);
   const id = content.params.id;
   await mongoose.connect(connectionStr, {
     useNewUrlParser: true,

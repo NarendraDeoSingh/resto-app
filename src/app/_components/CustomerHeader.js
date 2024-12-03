@@ -12,11 +12,9 @@ const CustomerHeader = (props) => {
   const [cartNumber, setCartNumber] = useState(cartStorage?.length);
   const [cartItem, setCartItem] = useState(cartStorage);
   const router = useRouter();
-  console.log(userStorage);
 
   useEffect(() => {
     if (props.cartData) {
-      console.log(props);
       if (cartNumber) {
         if (cartItem[0].resto_id != props.cartData.resto_id) {
           localStorage.removeItem("cart");

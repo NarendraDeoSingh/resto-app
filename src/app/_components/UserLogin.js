@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const UserLogin = (props) => {
-  console.log('props',props)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
